@@ -1,0 +1,60 @@
+// David Paye
+// July 14, 2025
+// Guess My Number 
+
+import javax.swing.JOptionPane;
+import java.util.Random;
+
+public class GuessMyNumberSimple {
+
+    public static void main(String[] args) {
+        Random rand = new Random();
+        String allStats = "";
+        int round = 1;
+
+        while (true) {
+            int number = rand.nextInt(1000) + 1;
+            int guesses = 0;
+            boolean correct = false;
+
+            while (!correct) {
+                String input = JOptionPane.showInputDialog(null, "Guess a number between 1 and 1000:");
+
+                if (input == null) {
+                    JOptionPane.showMessageDialog(null, "Game cancelled.");
+                    return;
+                }
+
+                int guess;
+
+                try {
+                    guess = Integer.parseInt(input);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid number.");
+                    continue;
+                }
+
+                guesses++;
+
+                if (guess < number) {
+                    JOptionPane.showMessageDialog(null, "Too low!");
+                } else if (guess > number) {
+                    JOptionPane.showMessageDialog(null, "Too high!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Correct! You guessed it in " + guesses + " tries.");
+                    correct = true;
+                }
+            }
+
+            allStats += "Round " + round + ": " + guesses + " guesses\n";
+            round++;
+
+            int again = JOptionPane.showConfirmDialog(null, "Play again?", "Guess My Number", JOptionPane.YES_NO_OPTION);
+            if (again != JOptionPane.YES_OPTION) {
+                break;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Game Summary:\n" + allStats + "Thanks for playing!");
+    }
+}
